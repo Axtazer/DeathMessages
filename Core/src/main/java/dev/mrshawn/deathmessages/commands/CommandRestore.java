@@ -1,7 +1,6 @@
 package dev.mrshawn.deathmessages.commands;
 
 import dev.mrshawn.deathmessages.DeathMessages;
-import dev.mrshawn.deathmessages.config.ConfigManager;
 import dev.mrshawn.deathmessages.enums.Permission;
 import dev.mrshawn.deathmessages.utils.Assets;
 import net.kyori.adventure.text.Component;
@@ -26,6 +25,7 @@ public class CommandRestore extends DeathMessagesCommand {
 		} else {
 			String code = args[0];
 			boolean excludeUserData = Boolean.parseBoolean(args[1]);
+			/*
 			if (ConfigManager.getInstance().restore(code, excludeUserData)) {
 
 				Component message = Assets.formatMessage("Commands.DeathMessages.Sub-Commands.Restore.Restored")
@@ -38,6 +38,7 @@ public class CommandRestore extends DeathMessagesCommand {
 			} else {
 				DeathMessages.getInstance().adventure().sender(sender).sendMessage(Assets.formatMessage("Commands.DeathMessages.Sub-Commands.Restore.Backup-Not-Found"));
 			}
+			 */
 		}
 	}
 }

@@ -1,7 +1,6 @@
 package dev.mrshawn.deathmessages.commands;
 
 import dev.mrshawn.deathmessages.DeathMessages;
-import dev.mrshawn.deathmessages.config.ConfigManager;
 import dev.mrshawn.deathmessages.enums.Permission;
 import dev.mrshawn.deathmessages.utils.Assets;
 import net.kyori.adventure.text.Component;
@@ -25,7 +24,7 @@ public class CommandBackup extends DeathMessagesCommand {
 			DeathMessages.getInstance().adventure().sender(sender).sendMessage(Assets.formatMessage("Commands.DeathMessages.Sub-Commands.Backup.Usage"));
 		} else {
 			boolean b = Boolean.parseBoolean(args[0]);
-			String code = ConfigManager.getInstance().backup(b);
+			String code = DeathMessages.getConfigManager().backup(b);
 
 			Component message = Assets.formatMessage("Commands.DeathMessages.Sub-Commands.Backup.Backed-Up")
 					.replaceText(TextReplacementConfig.builder()

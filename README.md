@@ -48,8 +48,6 @@ Compatibility
 
 ## TODOs
 
-> - Auto reload config? maybe)
-> - Config refactor
 > - Look into get entity name
 > - Improve hoverEvent (showEntity/Re-add hoverText, commandSuggest)
 > - Custom bstats charts (Pending)

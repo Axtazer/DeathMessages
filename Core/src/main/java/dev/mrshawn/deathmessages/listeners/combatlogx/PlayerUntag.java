@@ -4,7 +4,7 @@ import com.github.sirblobman.combatlogx.api.event.PlayerUntagEvent;
 import com.github.sirblobman.combatlogx.api.object.UntagReason;
 import dev.mrshawn.deathmessages.api.PlayerManager;
 import dev.mrshawn.deathmessages.api.events.BroadcastDeathMessageEvent;
-import dev.mrshawn.deathmessages.config.Gangs;
+import dev.mrshawn.deathmessages.config.Config;
 import dev.mrshawn.deathmessages.enums.MessageType;
 import dev.mrshawn.deathmessages.listeners.EntityDeath;
 import dev.mrshawn.deathmessages.utils.Assets;
@@ -29,11 +29,11 @@ public class PlayerUntag implements Listener {
 			UntagReason reason = e.getUntagReason();
 
 			if (!reason.equals(UntagReason.QUIT)) return;
-			int radius = Gangs.getInstance().getConfig().getInt("Gang.Mobs.player.Radius");
-			int amount = Gangs.getInstance().getConfig().getInt("Gang.Mobs.player.Amount");
+			int radius = (int) Config.gangs.gangsGroup.get("player").get("Radius");
+			int amount = (int) Config.gangs.gangsGroup.get("player").get("Amount");
 			boolean gangKill = false;
 
-			if (Gangs.getInstance().getConfig().getBoolean("Gang.Enabled")) {
+			if (Config.gangs.enableGangs) {
 				int totalMobEntities = 0;
 				for (Entity entities : p.getNearbyEntities(radius, radius, radius)) {
 					if (entities.getType().equals(EntityType.PLAYER)) {

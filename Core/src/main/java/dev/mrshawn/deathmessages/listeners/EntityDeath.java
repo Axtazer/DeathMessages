@@ -6,13 +6,9 @@ import dev.mrshawn.deathmessages.api.ExplosionManager;
 import dev.mrshawn.deathmessages.api.PlayerManager;
 import dev.mrshawn.deathmessages.api.events.BroadcastDeathMessageEvent;
 import dev.mrshawn.deathmessages.api.events.BroadcastEntityDeathMessageEvent;
-import dev.mrshawn.deathmessages.config.Gangs;
-import dev.mrshawn.deathmessages.config.Settings;
+import dev.mrshawn.deathmessages.config.Config;
 import dev.mrshawn.deathmessages.enums.MessageType;
 import dev.mrshawn.deathmessages.enums.MobType;
-import dev.mrshawn.deathmessages.files.Config;
-import dev.mrshawn.deathmessages.files.FileSettings;
-import dev.mrshawn.deathmessages.kotlin.files.FileStore;
 import dev.mrshawn.deathmessages.utils.Assets;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -36,8 +32,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class EntityDeath implements Listener {
-
-	private static final FileSettings<Config> config = FileStore.INSTANCE.getCONFIG();
 
 	void onEntityDeath(EntityDeathEvent e) {
 		// Player death
@@ -87,12 +81,12 @@ public class EntityDeath implements Listener {
 					// Killed by mob
 					Entity ent = pm.getLastEntityDamager();
 					String mobName = ent.getType().getEntityClass().getSimpleName().toLowerCase();
-					int radius = Gangs.getInstance().getConfig().getInt("Gang.Mobs." + mobName + ".Radius");
-					int amount = Gangs.getInstance().getConfig().getInt("Gang.Mobs." + mobName + ".Amount");
+					int radius = (int) Config.gangs.gangsGroup.get(mobName).get("Radius");
+					int amount = (int) Config.gangs.gangsGroup.get(mobName).get("Amount");
 
 					boolean gangKill = false;
 
-					if (Gangs.getInstance().getConfig().getBoolean("Gang.Enabled")) {
+					if (Config.gangs.enableGangs) {
 						int totalMobEntities = 0;
 						for (Entity entities : p.getNearbyEntities(radius, radius, radius)) {
 							if (entities.getType().equals(ent.getType())) {
@@ -141,13 +135,12 @@ public class EntityDeath implements Listener {
 
 	public static List<World> getWorlds(Entity e) {
 		List<World> broadcastWorlds = new ArrayList<>();
-		if (config.getStringList(Config.DISABLED_WORLDS).contains(e.getWorld().getName())) {
+		if (Config.settings.DISABLED_WORLDS.contains(e.getWorld().getName())) {
 			return broadcastWorlds;
 		}
-		if (config.getBoolean(Config.PER_WORLD_MESSAGES)) {
-			// TODO: Add support for Map in FileSettings
-			for (String groups : Settings.getInstance().getConfig().getConfigurationSection("World-Groups").getKeys(false)) {
-				List<String> worlds = Settings.getInstance().getConfig().getStringList("World-Groups." + groups);
+		if (Config.settings.PER_WORLD_MESSAGES) {
+			for (String groups : Config.settings.WORLD_GROUPS.getKeys(false)) {
+				List<String> worlds = Config.settings.WORLD_GROUPS.getList(groups);
 				if (worlds.contains(e.getWorld().getName())) {
 					for (String single : worlds) {
 						World world = Bukkit.getWorld(single);

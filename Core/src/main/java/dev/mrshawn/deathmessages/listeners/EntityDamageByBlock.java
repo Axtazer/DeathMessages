@@ -3,10 +3,8 @@ package dev.mrshawn.deathmessages.listeners;
 import dev.mrshawn.deathmessages.DeathMessages;
 import dev.mrshawn.deathmessages.api.EntityManager;
 import dev.mrshawn.deathmessages.api.PlayerManager;
-import dev.mrshawn.deathmessages.config.EntityDeathMessages;
-import dev.mrshawn.deathmessages.config.Settings;
+import dev.mrshawn.deathmessages.config.Config;
 import dev.mrshawn.deathmessages.enums.MobType;
-import dev.mrshawn.deathmessages.files.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,6 +24,7 @@ public class EntityDamageByBlock implements Listener {
 			Optional<PlayerManager> getPlayer = PlayerManager.getPlayer(p);
 			getPlayer.ifPresent(pm -> pm.setLastDamageCause(e.getCause()));
 		} else {
+			/*
 			if (EntityDeathMessages.getInstance().getConfig().getConfigurationSection("Entities") == null) return;
 			Set<String> listenedMobs = EntityDeathMessages.getInstance().getConfig().getConfigurationSection("Entities")
 					.getKeys(false);
@@ -35,12 +34,13 @@ public class EntityDamageByBlock implements Listener {
 						.getKeys(false));
 			}
 
+
 			if (listenedMobs.isEmpty()) return;
 
 			for (String listened : listenedMobs) {
 				if (listened.contains(e.getEntity().getType().getEntityClass().getSimpleName().toLowerCase())) {
 					Optional<EntityManager> getEntity = EntityManager.getEntity(e.getEntity().getUniqueId());
-					if (Settings.getInstance().getConfig().getBoolean(Config.DEBUG.getPath())) System.out.println(e.getEntity().getType().getEntityClass().getSimpleName().toLowerCase());
+					if (Config.settings.DEBUG) System.out.println(e.getEntity().getType().getEntityClass().getSimpleName().toLowerCase());
 					getEntity.ifPresent(em -> em.setLastDamageCause(e.getCause()));
 					if (!getEntity.isPresent()) {
 						MobType mobType = MobType.VANILLA;
@@ -52,6 +52,7 @@ public class EntityDamageByBlock implements Listener {
 					}
 				}
 			}
+			 */
 		}
 	}
 }

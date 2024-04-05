@@ -80,15 +80,21 @@ repositories {
         name = "auxilor-repo"
         url = uri("https://repo.auxilor.io/repository/maven-public/")
     }
+
+    // ConfigurationMaster-API
+    maven {
+        name = "cm-repo"
+        url = uri("https://ci.pluginwiki.us/plugin/repository/everything/")
+    }
 }
 
 val adventureVersion = "4.16.0"
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.4-R0.1-SNAPSHOT")
-    compileOnly("org.apache.commons:commons-lang3:3.14.0")
     compileOnly("commons-io:commons-io:2.15.1")
     compileOnly("org.apache.logging.log4j:log4j-api:2.23.0")
+    api("com.github.thatsmusic99:ConfigurationMaster-API:v2.0.0-rc.2")
     api("com.github.cryptomorin:XSeries:9.9.0")
     api("org.bstats:bstats-bukkit:3.0.2")
     api("com.tcoded:FoliaLib:0.3.1")

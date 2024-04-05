@@ -1,7 +1,6 @@
 package dev.mrshawn.deathmessages.commands;
 
 import dev.mrshawn.deathmessages.DeathMessages;
-import dev.mrshawn.deathmessages.config.Messages;
 import dev.mrshawn.deathmessages.enums.Permission;
 import dev.mrshawn.deathmessages.utils.Assets;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +34,7 @@ public class CommandManager implements CommandExecutor {
 			DeathMessages.getInstance().adventure().sender(sender).sendMessage(Assets.formatMessage("Commands.DeathMessages.No-Permission"));
 			return false;
 		}
+		/*
 		if (args.length == 0) {
 			Messages.getInstance().getConfig().getStringList("Commands.DeathMessages.Help")
 					.stream()
@@ -54,6 +54,7 @@ public class CommandManager implements CommandExecutor {
 					.forEach(msg -> DeathMessages.getInstance().adventure().sender(sender).sendMessage(msg
 							.replaceText(Assets.prefix)));
 		}
+		 */
 		return false;
 	}
 

@@ -5,10 +5,7 @@ import dev.mrshawn.deathmessages.DeathMessages;
 import dev.mrshawn.deathmessages.api.EntityManager;
 import dev.mrshawn.deathmessages.api.PlayerManager;
 import dev.mrshawn.deathmessages.api.events.BroadcastEntityDeathMessageEvent;
-import dev.mrshawn.deathmessages.config.Messages;
-import dev.mrshawn.deathmessages.files.Config;
-import dev.mrshawn.deathmessages.files.FileSettings;
-import dev.mrshawn.deathmessages.kotlin.files.FileStore;
+import dev.mrshawn.deathmessages.config.Config;
 import dev.mrshawn.deathmessages.listeners.PluginMessaging;
 import dev.mrshawn.deathmessages.utils.Assets;
 import net.kyori.adventure.text.Component;
@@ -25,8 +22,6 @@ import java.util.Optional;
 
 public class BroadcastEntityDeathListener implements Listener {
 
-	private static final FileSettings<Config> config = FileStore.INSTANCE.getCONFIG();
-
 	@EventHandler
 	public void broadcastListener(BroadcastEntityDeathMessageEvent e) {
 		if (e.getTextComponent().equals(Component.empty())) return; // Dreeam - in Assets: return null -> renturn Component.empty()
@@ -34,6 +29,7 @@ public class BroadcastEntityDeathListener implements Listener {
 		Optional<PlayerManager> pm = Optional.of(e.getPlayer());
 		boolean hasOwner = e.getEntity() instanceof Tameable;
 
+		/*
 		if (Messages.getInstance().getConfig().getBoolean("Console.Enabled")) {
 			Component message = Assets.entityDeathPlaceholders(Assets.convertFromLegacy(Messages.getInstance().getConfig().getString("Console.Message")), pm.get().getPlayer(), e.getEntity(), hasOwner);
 			DeathMessages.getInstance().adventure().console().sendMessage(message.replaceText(TextReplacementConfig.builder()
@@ -41,6 +37,7 @@ public class BroadcastEntityDeathListener implements Listener {
 					.replacement(e.getTextComponent())
 					.build()));
 		}
+		 */
 
 		if (pm.get().isInCooldown()) {
 			return;
@@ -48,12 +45,12 @@ public class BroadcastEntityDeathListener implements Listener {
 			pm.get().setCooldown();
 		}
 
-		boolean privateTameable = config.getBoolean(Config.PRIVATE_MESSAGES_MOBS);
+		boolean privateTameable = Config.settings.PRIVATE_MESSAGES_MOBS;
 		boolean discordSent = false;
 
 		for (World w : e.getBroadcastedWorlds()) {
 			for (Player player : w.getPlayers()) {
-				if (config.getStringList(Config.DISABLED_WORLDS).contains(w.getName())) {
+				if (Config.settings.DISABLED_WORLDS.contains(w.getName())) {
 					continue;
 				}
                 Optional<PlayerManager> getPlayer = PlayerManager.getPlayer(player);
@@ -77,8 +74,8 @@ public class BroadcastEntityDeathListener implements Listener {
 							PluginMessaging.sendPluginMSG(pms.getPlayer(), Assets.convertToLegacy(e.getTextComponent()));
 						}
 					});
-					if (config.getBoolean(Config.HOOKS_DISCORD_WORLD_WHITELIST_ENABLED)) {
-						List<String> discordWorldWhitelist = config.getStringList(Config.HOOKS_DISCORD_WORLD_WHITELIST_WORLDS);
+					if (Config.settings.HOOKS_DISCORD_WORLD_WHITELIST_ENABLED) {
+						List<String> discordWorldWhitelist = Config.settings.HOOKS_DISCORD_WORLD_WHITELIST_WORLDS;
 						boolean broadcastToDiscord = false;
 						for (World world : e.getBroadcastedWorlds()) {
 							if (discordWorldWhitelist.contains(world.getName())) {

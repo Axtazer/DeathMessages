@@ -82,7 +82,7 @@ public class EntityUtil {
             "warden"
     );
 
-    public static List<String> getEntities() {
+    public static List<String> getEntitiyList() {
         return list;
     }
 }
